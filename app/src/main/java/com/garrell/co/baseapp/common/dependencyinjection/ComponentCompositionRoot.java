@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.garrell.co.baseapp.common.eventbus.EventBusPoster;
 import com.garrell.co.baseapp.common.eventbus.EventBusSubscriber;
+import com.garrell.co.thirtycount.clock.Clock;
 import com.techyourchance.threadposter.BackgroundThreadPoster;
 import com.techyourchance.threadposter.UiThreadPoster;
 
@@ -40,5 +41,9 @@ public abstract class ComponentCompositionRoot {
 
     public EventBusSubscriber getEventBusSubscriber() {
         return applicationCompositionRoot.getEventBusSubscriber();
+    }
+
+    public Clock getClock() {
+        return new Clock(getUiThreadPoster());
     }
 }

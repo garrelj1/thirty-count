@@ -1,14 +1,11 @@
 package com.garrell.co.baseapp.screens.common;
 
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import com.garrell.co.baseapp.screens.common.dialogs.info.InfoViewMvc;
 import com.garrell.co.baseapp.screens.common.dialogs.info.InfoViewMvcImpl;
 import com.garrell.co.baseapp.screens.common.dialogs.prompt.PromptViewMvc;
 import com.garrell.co.baseapp.screens.common.dialogs.prompt.PromptViewMvcImpl;
-import com.garrell.co.baseapp.screens.home.HomeViewMvc;
-import com.garrell.co.baseapp.screens.home.HomeViewMvcImpl;
 
 public class ViewMvcFactory {
 
@@ -26,7 +23,4 @@ public class ViewMvcFactory {
         return new PromptViewMvcImpl(layoutInflater, null);
     }
 
-    public HomeViewMvc newHomeViewMvc(ViewGroup container) {
-        return new HomeViewMvcImpl(layoutInflater, container);
-    }
 }

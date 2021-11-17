@@ -3,9 +3,9 @@ package com.garrell.co.baseapp.screens.common.screennavigator;
 import android.app.Activity;
 import android.os.Bundle;
 
+import com.garrell.co.thirtycount.screens.countdown.CountdownFragment;
 import com.ncapdevi.fragnav.FragNavController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
-import com.garrell.co.baseapp.screens.home.HomeFragment;
 
 import java.util.Collections;
 
@@ -23,7 +23,7 @@ public class ScreensNavigator {
     }
 
     public void init(Bundle savedInstanceState) {
-        fragNavController.setRootFragments(Collections.singletonList(HomeFragment.newInstance()));
+        fragNavController.setRootFragments(Collections.singletonList(CountdownFragment.newInstance()));
         fragNavController.setFragNavLogger((s, throwable) -> Timber.e(throwable, "ScreensNavigator: %s", s));
         fragNavController.setDefaultTransactionOptions(new FragNavTransactionOptions.Builder().build());
         fragNavController.initialize(FragNavController.TAB1, savedInstanceState);
