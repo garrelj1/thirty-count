@@ -1,6 +1,7 @@
 package com.garrell.co.baseapp.common.dependencyinjection;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import com.garrell.co.baseapp.R;
 import com.garrell.co.baseapp.screens.common.ViewMvcFactory;
 import com.garrell.co.baseapp.screens.common.dialogs.DialogsManager;
 import com.garrell.co.baseapp.screens.common.screennavigator.ScreensNavigator;
+import com.garrell.co.thirtycount.clock.reset.PlayResetToneUseCase;
 import com.ncapdevi.fragnav.FragNavController;
 import com.garrell.co.baseapp.common.permissions.PermissionsHelper;
 import com.techyourchance.dialoghelper.DialogHelper;
@@ -59,5 +61,13 @@ public class ActivityCompositionRoot extends ComponentCompositionRoot {
 
     public PermissionsHelper getPermissionsHelper() {
         return new PermissionsHelper(activity);
+    }
+
+    public PlayResetToneUseCase getPlayResetToneUseCase() {
+        return new PlayResetToneUseCase(getMediaPlayer());
+    }
+
+    private MediaPlayer getMediaPlayer() {
+        return MediaPlayer.create(getContext(), R.raw.beep);
     }
 }

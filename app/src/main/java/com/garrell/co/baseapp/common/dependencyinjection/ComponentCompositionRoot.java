@@ -1,10 +1,13 @@
 package com.garrell.co.baseapp.common.dependencyinjection;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 
+import com.garrell.co.baseapp.R;
 import com.garrell.co.baseapp.common.eventbus.EventBusPoster;
 import com.garrell.co.baseapp.common.eventbus.EventBusSubscriber;
 import com.garrell.co.thirtycount.clock.Clock;
+import com.garrell.co.thirtycount.clock.reset.PlayResetToneUseCase;
 import com.techyourchance.threadposter.BackgroundThreadPoster;
 import com.techyourchance.threadposter.UiThreadPoster;
 
@@ -46,4 +49,5 @@ public abstract class ComponentCompositionRoot {
     public Clock getClock() {
         return new Clock(getUiThreadPoster());
     }
+
 }

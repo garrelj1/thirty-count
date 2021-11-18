@@ -1,4 +1,4 @@
-package com.garrell.co.thirtycount.screens.countdown;
+package com.garrell.co.thirtycount.screens.countdown.controller;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.garrell.co.baseapp.R;
+import com.garrell.co.baseapp.screens.common.ViewMvcFactory;
 import com.garrell.co.baseapp.screens.common.controller.BaseFragment;
 import com.garrell.co.thirtycount.clock.Clock;
+import com.garrell.co.thirtycount.clock.reset.PlayResetToneUseCase;
+import com.garrell.co.thirtycount.screens.countdown.view.CountdownViewMvc;
 
 public class CountdownFragment extends BaseFragment implements Clock.Listener {
 
@@ -20,10 +23,15 @@ public class CountdownFragment extends BaseFragment implements Clock.Listener {
     }
 
     private Clock clock;
+    private ViewMvcFactory viewMvcFactory;
+    private PlayResetToneUseCase playToneUseCase;
+    private CountdownViewMvc viewMvc;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        viewMvcFactory = getControllerCompositionRoot().getViewMvcFactory();
         clock = getControllerCompositionRoot().getClock();
+        playToneUseCase = getControllerCompositionRoot().getPlayResetToneUseCase();
         super.onCreate(savedInstanceState);
     }
 
@@ -32,13 +40,15 @@ public class CountdownFragment extends BaseFragment implements Clock.Listener {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.layout_home, container, false);
+        viewMvc = viewMvcFactory.newCountdownViewMvc();
+        return viewMvc.getRootView();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         clock.registerListener(this);
+
         clock.start();
     }
 
@@ -46,17 +56,18 @@ public class CountdownFragment extends BaseFragment implements Clock.Listener {
     public void onPause() {
         super.onPause();
         clock.unregisterListener(this);
+
         clock.stop();
     }
 
     @Override
     public void onUpdateTime(int time) {
-        TextView tv = getView().findViewById(R.id.clock);
-        tv.setText(Integer.toString(time));
+        viewMvc.setTime(time);
     }
 
     @Override
     public void onTimerReset() {
+        playToneUseCase.playTone();
     }
 
 }

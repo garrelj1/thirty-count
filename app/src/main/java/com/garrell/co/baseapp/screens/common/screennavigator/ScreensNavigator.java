@@ -3,7 +3,7 @@ package com.garrell.co.baseapp.screens.common.screennavigator;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.garrell.co.thirtycount.screens.countdown.CountdownFragment;
+import com.garrell.co.thirtycount.screens.countdown.controller.CountdownFragment;
 import com.ncapdevi.fragnav.FragNavController;
 import com.ncapdevi.fragnav.FragNavTransactionOptions;
 
