@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 
 import com.garrell.co.baseapp.R;
 import com.garrell.co.baseapp.common.notification.NotificationHelper;
+import com.garrell.co.baseapp.common.service.ForegroundServiceId;
 
 public class ClockServiceNotificationManager {
 
@@ -29,7 +30,7 @@ public class ClockServiceNotificationManager {
             return;
 
         builder.setContentText(Integer.toString(time));
-        //notificationHelper.notify(0, builder.build());
+        notificationHelper.notify(ForegroundServiceId.CLOCK_SERVICE, builder.build());
     }
 
     public Notification setupForegroundNotification() {

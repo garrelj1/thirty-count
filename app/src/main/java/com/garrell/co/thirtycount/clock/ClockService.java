@@ -33,7 +33,6 @@ public class ClockService extends BaseService implements Clock.Listener {
 
         startAsForeground();
 
-        //getCompositionRoot().getClockServiceNotificationManager();
         eventBusPoster = getCompositionRoot().getEventBusPoster();
 
         playToneUseCase = getCompositionRoot().getPlayResetToneUseCase();
