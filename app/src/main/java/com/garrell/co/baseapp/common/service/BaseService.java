@@ -11,6 +11,13 @@ import com.garrell.co.baseapp.common.dependencyinjection.ServiceCompositionRoot;
 
 public class BaseService extends Service {
 
+    protected enum ServiceState {
+        RUNNING,
+        STOPPED
+    }
+
+    protected ServiceState serviceState = ServiceState.STOPPED;
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {

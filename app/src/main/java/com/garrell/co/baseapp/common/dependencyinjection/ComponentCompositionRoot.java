@@ -50,4 +50,15 @@ public abstract class ComponentCompositionRoot {
         return new Clock(getUiThreadPoster());
     }
 
+    public void getClockServiceNotificationManager() {
+    }
+
+    public PlayResetToneUseCase getPlayResetToneUseCase() {
+        return new PlayResetToneUseCase(getMediaPlayer());
+    }
+
+    private MediaPlayer getMediaPlayer() {
+        return MediaPlayer.create(getApplicationContext(), R.raw.beep);
+    }
+
 }

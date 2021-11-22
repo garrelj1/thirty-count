@@ -63,11 +63,5 @@ public class ActivityCompositionRoot extends ComponentCompositionRoot {
         return new PermissionsHelper(activity);
     }
 
-    public PlayResetToneUseCase getPlayResetToneUseCase() {
-        return new PlayResetToneUseCase(getMediaPlayer());
-    }
 
-    private MediaPlayer getMediaPlayer() {
-        return MediaPlayer.create(getContext(), R.raw.beep);
-    }
 }

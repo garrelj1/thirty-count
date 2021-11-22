@@ -15,17 +15,21 @@ public class Clock extends BaseObservable<Clock.Listener> implements ClockTick.L
         void onTimerReset();
     }
 
-    private final int PERIOD_MILLI = 1000;
-    private final int PERIOD_SEC = 1;
-    private int totalTime = 30;
+    private final int TICK_LENGTH_SECOND = 1;
+    private int       totalTime          = 30;
     private final Timer timer = new Timer();
 
     public Clock(UiThreadPoster uiThreadPoster) {
         this.uiThreadPoster = uiThreadPoster;
     }
 
+    public void setTotalTime(int totalTime) {
+        this.totalTime = totalTime;
+    }
+
     public void start() {
-        timer.schedule(newTimerTask(), PERIOD_MILLI, PERIOD_MILLI);
+        int TICK_LENGTH_MILLI = TICK_LENGTH_SECOND * 1000;
+        timer.schedule(newTimerTask(), TICK_LENGTH_MILLI, TICK_LENGTH_MILLI);
     }
 
     public void stop() {
@@ -40,7 +44,7 @@ public class Clock extends BaseObservable<Clock.Listener> implements ClockTick.L
             notifyReset();
         }
         else
-            totalTime -= PERIOD_SEC;
+            totalTime -= TICK_LENGTH_SECOND;
 
         notifyTick();
     }

@@ -10,28 +10,37 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.garrell.co.baseapp.R;
+import com.garrell.co.baseapp.common.eventbus.EventBusSubscriber;
 import com.garrell.co.baseapp.screens.common.ViewMvcFactory;
 import com.garrell.co.baseapp.screens.common.controller.BaseFragment;
 import com.garrell.co.thirtycount.clock.Clock;
+import com.garrell.co.thirtycount.clock.ClockService;
+import com.garrell.co.thirtycount.clock.event.TimeUpdatedEvent;
+import com.garrell.co.thirtycount.clock.event.TimerResetEvent;
 import com.garrell.co.thirtycount.clock.reset.PlayResetToneUseCase;
 import com.garrell.co.thirtycount.screens.countdown.view.CountdownViewMvc;
 
-public class CountdownFragment extends BaseFragment implements Clock.Listener {
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+public class CountdownFragment extends BaseFragment {
 
     public static CountdownFragment newInstance() {
         return new CountdownFragment();
     }
 
-    private Clock clock;
     private ViewMvcFactory viewMvcFactory;
-    private PlayResetToneUseCase playToneUseCase;
+
+
+    private EventBusSubscriber eventBusSubscriber;
     private CountdownViewMvc viewMvc;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         viewMvcFactory = getControllerCompositionRoot().getViewMvcFactory();
-        clock = getControllerCompositionRoot().getClock();
-        playToneUseCase = getControllerCompositionRoot().getPlayResetToneUseCase();
+        eventBusSubscriber = getControllerCompositionRoot().getEventBusSubscriber();
+
+
         super.onCreate(savedInstanceState);
     }
 
@@ -47,27 +56,24 @@ public class CountdownFragment extends BaseFragment implements Clock.Listener {
     @Override
     public void onResume() {
         super.onResume();
-        clock.registerListener(this);
+        eventBusSubscriber.register(this);
 
-        clock.start();
+        ClockService.launchClockService(getControllerCompositionRoot().getContext());
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        clock.unregisterListener(this);
-
-        clock.stop();
+        eventBusSubscriber.unregister(this);
     }
 
-    @Override
-    public void onUpdateTime(int time) {
-        viewMvc.setTime(time);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTimeUpdateEvent(TimeUpdatedEvent timeUpdatedEvent) {
+        viewMvc.setTime(timeUpdatedEvent.time);
     }
 
-    @Override
-    public void onTimerReset() {
-        playToneUseCase.playTone();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTimerResetEvent(TimerResetEvent timerResetEvent) {
     }
 
 }
