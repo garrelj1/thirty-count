@@ -36,4 +36,8 @@ public class NotificationHelper {
         return new Notification.Builder(context);
     }
 
+    public void notify(int id, Notification notification) {
+        notificationManager.notify(id, notification);
+    }
+
 }

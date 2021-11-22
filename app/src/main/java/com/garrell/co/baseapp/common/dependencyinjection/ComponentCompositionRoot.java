@@ -6,7 +6,9 @@ import android.media.MediaPlayer;
 import com.garrell.co.baseapp.R;
 import com.garrell.co.baseapp.common.eventbus.EventBusPoster;
 import com.garrell.co.baseapp.common.eventbus.EventBusSubscriber;
+import com.garrell.co.baseapp.common.notification.NotificationHelper;
 import com.garrell.co.thirtycount.clock.Clock;
+import com.garrell.co.thirtycount.clock.notification.ClockServiceNotificationManager;
 import com.garrell.co.thirtycount.clock.reset.PlayResetToneUseCase;
 import com.techyourchance.threadposter.BackgroundThreadPoster;
 import com.techyourchance.threadposter.UiThreadPoster;
@@ -50,7 +52,12 @@ public abstract class ComponentCompositionRoot {
         return new Clock(getUiThreadPoster());
     }
 
-    public void getClockServiceNotificationManager() {
+    public ClockServiceNotificationManager getClockServiceNotificationManager() {
+        return new ClockServiceNotificationManager(getNotificationHelper());
+    }
+
+    private NotificationHelper getNotificationHelper() {
+        return new NotificationHelper(getApplicationContext());
     }
 
     public PlayResetToneUseCase getPlayResetToneUseCase() {

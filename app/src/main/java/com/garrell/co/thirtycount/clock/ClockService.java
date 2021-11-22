@@ -1,11 +1,14 @@
 package com.garrell.co.thirtycount.clock;
 
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 
 import com.garrell.co.baseapp.common.eventbus.EventBusPoster;
 import com.garrell.co.baseapp.common.service.BaseService;
+import com.garrell.co.baseapp.common.service.ForegroundServiceId;
 import com.garrell.co.thirtycount.clock.event.TimeUpdatedEvent;
+import com.garrell.co.thirtycount.clock.notification.ClockServiceNotificationManager;
 import com.garrell.co.thirtycount.clock.reset.PlayResetToneUseCase;
 
 public class ClockService extends BaseService implements Clock.Listener {
@@ -18,17 +21,23 @@ public class ClockService extends BaseService implements Clock.Listener {
     private PlayResetToneUseCase playToneUseCase;
 
     private Clock                clock;
+
     private EventBusPoster eventBusPoster;
+
+    private ClockServiceNotificationManager clockServiceNotificationManager;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (serviceState == ServiceState.RUNNING)
             return super.onStartCommand(intent, flags, startId);
 
+        startAsForeground();
+
         //getCompositionRoot().getClockServiceNotificationManager();
         eventBusPoster = getCompositionRoot().getEventBusPoster();
 
         playToneUseCase = getCompositionRoot().getPlayResetToneUseCase();
+
 
         clock = getCompositionRoot().getClock();
         clock.registerListener(this);
@@ -37,6 +46,12 @@ public class ClockService extends BaseService implements Clock.Listener {
         serviceState = ServiceState.RUNNING;
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void startAsForeground() {
+        clockServiceNotificationManager = getCompositionRoot().getClockServiceNotificationManager();
+        Notification notification = clockServiceNotificationManager.setupForegroundNotification();
+        startForeground(ForegroundServiceId.CLOCK_SERVICE, notification);
     }
 
     @Override
@@ -52,6 +67,7 @@ public class ClockService extends BaseService implements Clock.Listener {
     @Override
     public void onUpdateTime(int time) {
         eventBusPoster.post(new TimeUpdatedEvent(time));
+        clockServiceNotificationManager.setNotificationTime(time);
     }
 
     @Override
