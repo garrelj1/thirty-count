@@ -39,19 +39,19 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
 
     // fragment navigation
-    implementation 'com.ncapdevi:frag-nav:3.3.0'
+    implementation 'com.github.ncapdevi:FragNav:3.3.0'
 
     // Multithreading
-    implementation 'com.techyourchance.threadposter:threadposter:0.8.3'
+    implementation 'com.techyourchance:threadposter:1.0.1'
 
     // Logging
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // event bus
-    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'org.greenrobot:eventbus:3.3.1'
 
     // dialogs
-    implementation 'com.techyourchance:dialoghelper:0.9.0'
+    implementation 'com.techyourchance:dialoghelper:1.0.1'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
 
